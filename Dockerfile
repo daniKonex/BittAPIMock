@@ -87,6 +87,14 @@ echo "Virtual host config:"\n\
 head -5 /etc/apache2/sites-available/000-default.conf\n\
 echo "Writable directory permissions:"\n\
 ls -la /var/www/html/writable/\n\
+echo "Environment file:"\n\
+ls -la /var/www/html/.env\n\
+echo "Public directory:"\n\
+ls -la /var/www/html/public/\n\
+echo "Testing PHP:"\n\
+php -v\n\
+echo "Testing health.php directly:"\n\
+php /var/www/html/public/health.php\n\
 \n\
 # Start Apache\n\
 echo "Starting Apache..."\n\
