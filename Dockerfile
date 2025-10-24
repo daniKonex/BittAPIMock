@@ -63,6 +63,17 @@ ENV WRITABLE_DIR=/var/www/html/writable
 # Create startup script for Railway
 RUN echo '#!/bin/bash\n\
 set -e\n\
+\n\
+# Log everything to a file and stdout\n\
+exec > >(tee -a /var/log/startup.log)\n\
+exec 2>&1\n\
+\n\
+echo "=== RAILWAY STARTUP LOG ==="\n\
+date\n\
+echo "PORT: $PORT"\n\
+echo "PWD: $(pwd)"\n\
+echo "USER: $(whoami)"\n\
+\n\
 echo "=== Starting Apache on port $PORT ==="\n\
 echo "Configuring Apache for port $PORT"\n\
 \n\

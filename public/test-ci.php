@@ -1,5 +1,7 @@
 <?php
 // Test CodeIgniter bootstrap step by step
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 header('Content-Type: application/json');
 
 $result = [
