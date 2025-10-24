@@ -1,0 +1,440 @@
+{
+  "info": {
+    "name": "Biit API Mock - KonexCommerce Integration",
+    "description": "Mock API endpoints for testing KonexCommerce and Biit/Sage integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8090",
+      "type": "string"
+    },
+    {
+      "key": "integrationToken",
+      "value": "konex-integration-token-12345",
+      "type": "string"
+    },
+    {
+      "key": "userToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('userToken', jsonData.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Guest Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"guest@example.com\",\n  \"name\": \"Guest User\",\n  \"phone\": \"+34600000000\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/guest-register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "guest-register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Token Management",
+      "item": [
+        {
+          "name": "Force Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{integrationToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"USR1234\",\n  \"clientId\": \"CLI1234\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/token/force-login",
+              "host": ["{{baseUrl}}"],
+              "path": ["token", "force-login"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{integrationToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{userToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/token/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["token", "refresh"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User/Client",
+      "item": [
+        {
+          "name": "Get Prices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/me/prices",
+              "host": ["{{baseUrl}}"],
+              "path": ["me", "prices"]
+            }
+          }
+        },
+        {
+          "name": "Get Catalog",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/me/catalog",
+              "host": ["{{baseUrl}}"],
+              "path": ["me", "catalog"]
+            }
+          }
+        },
+        {
+          "name": "Get Addresses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/me/addresses",
+              "host": ["{{baseUrl}}"],
+              "path": ["me", "addresses"]
+            }
+          }
+        },
+        {
+          "name": "Get Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/me/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["me", "orders"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart (Model 2)",
+      "item": [
+        {
+          "name": "Validate Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"ELEC-0001\",\n  \"qty\": 1,\n  \"price\": 2650.45\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart/item/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart", "item", "validate"]
+            }
+          }
+        },
+        {
+          "name": "Validate Item - No Stock",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"ELEC-NOSTOCK-001\",\n  \"qty\": 1,\n  \"price\": 200\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/cart/item/validate", "host": ["{{baseUrl}}"], "path": ["cart","item","validate"] }
+          }
+        },
+        {
+          "name": "Validate Item - Price Too Low",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"ELEC-0001\",\n  \"qty\": 1,\n  \"price\": 99.99\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/cart/item/validate", "host": ["{{baseUrl}}"], "path": ["cart","item","validate"] }
+          }
+        },
+        {
+          "name": "Validate Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"sku\": \"ELEC-0001\",\n      \"qty\": 24,\n      \"price\": 2650.45\n    }\n  ],\n  \"totals\": {\n    \"total\": 2650.45,\n    \"discount\": 265.045\n  },\n  \"addresses\": {\n    \"billing\": {\n      \"name\": \"John Doe\",\n      \"address\": \"123 Main St\",\n      \"city\": \"Anytown\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\",\n      \"country\": \"ES\"\n    },\n    \"shipping\": {\n      \"name\": \"John Doe\",\n      \"address\": \"123 Main St\",\n      \"city\": \"Anytown\",\n      \"state\": \"CA\",\n      \"zip\": \"12345\",\n      \"country\": \"ES\"\n    }\n  },\n  \"payment\": {\n    \"method\": \"credit_card\",\n    \"payment_reference\": \"1234567890\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart", "validate"]
+            }
+          }
+        },
+        {
+          "name": "Validate Cart - Missing Payment Reference",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"sku\": \"ELEC-0001\",\n      \"qty\": 24,\n      \"price\": 2650.45\n    }\n  ],\n  \"totals\": { \"total\": 2650.45 },\n  \"addresses\": {\n    \"billing\": { \"country\": \"ES\" },\n    \"shipping\": { \"country\": \"ES\" }\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/cart/validate", "host": ["{{baseUrl}}"], "path": ["cart","validate"] }
+          }
+        },
+        {
+          "name": "Validate Cart - Unsupported Country",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"sku\": \"ELEC-0001\",\n      \"qty\": 24,\n      \"price\": 2650.45\n    }\n  ],\n  \"addresses\": {\n    \"billing\": { \"country\": \"US\" },\n    \"shipping\": { \"country\": \"US\" }\n  },\n  \"payment\": { \"method\": \"credit_card\", \"payment_reference\": \"ABC\" }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/cart/validate", "host": ["{{baseUrl}}"], "path": ["cart","validate"] }
+          }
+        },
+        {
+          "name": "Get Shipping Options",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cart/shipping-options?cartTotal=2650.45&itemCount=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart", "shipping-options"],
+              "query": [
+                {
+                  "key": "cartTotal",
+                  "value": "2650.45"
+                },
+                {
+                  "key": "itemCount",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Shipping Options (Low total, 3 items)",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{userToken}}" } ],
+            "url": {
+              "raw": "{{baseUrl}}/cart/shipping-options?cartTotal=50&itemCount=3",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart","shipping-options"],
+              "query": [
+                { "key": "cartTotal", "value": "50" },
+                { "key": "itemCount", "value": "3" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Confirm Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"sku\": \"IPAD-PRO-128-GRAY\",\n      \"qty\": 1,\n      \"price\": 854.99\n    }\n  ],\n  \"shippingAddressId\": \"ADDR001\",\n  \"billingAddressId\": \"ADDR002\",\n  \"shippingMethodId\": \"STANDARD\",\n  \"paymentMethod\": \"credit_card\",\n  \"paymentReference\": \"PAY123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["cart", "confirm"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "Export Catalog (Full Sync)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{integrationToken}}"
+              },
+              {
+                "key": "X-Full-Sync",
+                "value": "true"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/export",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "export"]
+            }
+          }
+        },
+        {
+          "name": "Export Catalog (Incremental)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{integrationToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/export",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "export"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

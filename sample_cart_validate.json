@@ -1,0 +1,48 @@
+{
+    "items": [
+        {
+            "sku": "ELEC-0001",
+            "qty": 24,
+            "price": 2650.45
+        }
+    ],
+    "shipping": 0,
+    "tax": 21,
+    "totals": {
+        "total": 2650.45,
+        "discount": 265.045,
+        "promocodes": [
+            {
+                "code": "DISCOUNT10",
+                "value": 10
+            }
+        ]
+    },
+    "addresses": {
+        "billing": {
+            "name": "John Doe",
+            "address": "123 Main St",
+            "city": "Anytown",
+            "state": "CA",
+            "zip": "12345",
+            "country": "US"
+        },
+        "shipping": {
+            "name": "John Doe",
+            "address": "123 Main St",
+            "city": "Anytown",
+            "state": "CA",
+            "zip": "12345",
+            "country": "US"
+        }
+    },
+    "shipping_option": {
+        "id": "standard",
+        "name": "Standard Shipping",
+        "price": 0
+    },
+    "payment": {
+        "method": "credit_card",
+        "payment_reference": "1234567890"
+    }
+}

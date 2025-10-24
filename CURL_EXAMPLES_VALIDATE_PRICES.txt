@@ -1,0 +1,192 @@
+================================================================================
+PRICES ENDPOINT - QUICK CURL EXAMPLES
+================================================================================
+
+ENDPOINT: GET /me/prices
+REQUIRES: User Access Token (from login)
+DISCOUNT RULE: Users with @konex.com or @konex.es email get 15% discount
+
+================================================================================
+EXAMPLE 1: Complete Flow (Login + Get Prices)
+================================================================================
+
+# Step 1: Login with @konex.com email
+curl -X POST http://localhost:8090/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john.doe@konex.com",
+    "password": "password123"
+  }'
+
+# Step 2: Copy the token from response and use it here
+curl -X GET http://localhost:8090/me/prices \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+
+
+================================================================================
+EXAMPLE 2: One-Liner (Bash with jq)
+================================================================================
+
+TOKEN=$(curl -s -X POST http://localhost:8090/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@konex.com","password":"pass123"}' \
+  | jq -r '.data.token') && \
+curl -X GET http://localhost:8090/me/prices \
+  -H "Authorization: Bearer $TOKEN" \
+  | jq '.'
+
+
+================================================================================
+EXAMPLE 3: Test Both Scenarios (With and Without Discount)
+================================================================================
+
+# User WITH @konex.com (gets 15% discount)
+echo "=== User with @konex.com (15% discount) ===" && \
+TOKEN=$(curl -s -X POST http://localhost:8090/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@konex.com","password":"password"}' \
+  | jq -r '.data.token') && \
+curl -s -X GET http://localhost:8090/me/prices \
+  -H "Authorization: Bearer $TOKEN" \
+  | jq '.data | {clientId, totalProducts, firstProduct: .prices[0]}'
+
+echo ""
+
+# User WITHOUT @konex.com (no discount)
+echo "=== User without @konex.com (no discount) ===" && \
+TOKEN=$(curl -s -X POST http://localhost:8090/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password"}' \
+  | jq -r '.data.token') && \
+curl -s -X GET http://localhost:8090/me/prices \
+  -H "Authorization: Bearer $TOKEN" \
+  | jq '.data | {clientId, totalProducts, firstProduct: .prices[0]}'
+
+
+================================================================================
+EXAMPLE 4: For Integration Testing (Save Token)
+================================================================================
+
+# Login and save token to file
+curl -s -X POST http://localhost:8090/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"integration@konex.com","password":"test123"}' \
+  | jq -r '.data.token' > token.txt
+
+# Use saved token
+curl -X GET http://localhost:8090/me/prices \
+  -H "Authorization: Bearer $(cat token.txt)"
+
+
+================================================================================
+EXAMPLE 5: Python Requests
+================================================================================
+
+import requests
+
+# Login
+login_response = requests.post(
+    'http://localhost:8090/auth/login',
+    json={
+        'email': 'user@konex.com',
+        'password': 'password123'
+    }
+)
+token = login_response.json()['data']['token']
+
+# Get prices
+prices_response = requests.get(
+    'http://localhost:8090/me/prices',
+    headers={
+        'Authorization': f'Bearer {token}'
+    }
+)
+
+data = prices_response.json()
+print(f"Total products: {data['data']['totalProducts']}")
+
+
+================================================================================
+EXAMPLE 6: JavaScript/Node.js Fetch
+================================================================================
+
+// Login
+const loginResponse = await fetch('http://localhost:8090/auth/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: 'user@konex.com',
+    password: 'password123'
+  })
+});
+const { data: { token } } = await loginResponse.json();
+
+// Get prices
+const pricesResponse = await fetch('http://localhost:8090/me/prices', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+
+const pricesData = await pricesResponse.json();
+console.log('Total products:', pricesData.data.totalProducts);
+
+
+================================================================================
+EXPECTED RESPONSE (with @konex.com discount)
+================================================================================
+
+{
+  "success": true,
+  "data": {
+    "clientId": "CLI1234",
+    "currency": "EUR",
+    "totalProducts": 50,
+    "prices": [
+      {
+        "id": "1",
+        "sku": "32065",
+        "price": 75.0,
+        "finalPrice": 63.75
+      },
+      ...
+    ]
+  }
+}
+
+
+================================================================================
+EXPECTED RESPONSE (without discount)
+================================================================================
+
+{
+  "success": true,
+  "data": {
+    "clientId": "CLI5678",
+    "currency": "EUR",
+    "totalProducts": 50,
+    "prices": [
+      {
+        "id": "1",
+        "sku": "32065",
+        "price": 75.0,
+        "finalPrice": 75.0
+      },
+      ...
+    ]
+  }
+}
+
+
+================================================================================
+NOTES
+================================================================================
+
+- Endpoint returns 50 products by default for performance
+- Only minimal fields returned: id, sku, price, finalPrice
+- 15% discount automatically applied for @konex.com emails
+- Response is optimized for async/background processing
+- Cache the response for user session (recommended TTL: 1 hour)
+
+================================================================================

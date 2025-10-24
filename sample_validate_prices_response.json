@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "data": {
+    "clientId": "CLI1234",
+    "currency": "EUR",
+    "totalProducts": 50,
+    "prices": [
+      {
+        "id": "1",
+        "sku": "32065",
+        "price": 75.0,
+        "finalPrice": 63.75
+      },
+      {
+        "id": "2",
+        "sku": "35281",
+        "price": 75.0,
+        "finalPrice": 63.75
+      },
+      {
+        "id": "3",
+        "sku": "46064",
+        "price": 75.0,
+        "finalPrice": 63.75
+      },
+      {
+        "id": "4",
+        "sku": "46065",
+        "price": 75.0,
+        "finalPrice": 63.75
+      },
+      {
+        "id": "5",
+        "sku": "46066",
+        "price": 75.0,
+        "finalPrice": 63.75
+      }
+    ]
+  }
+}

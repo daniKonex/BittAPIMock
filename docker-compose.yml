@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: biit-api-mock
+    ports:
+      - "8090:80"
+    volumes:
+      - ./:/var/www/html
+      - ./writable:/var/www/html/writable
+    environment:
+      - CI_ENVIRONMENT=development
+      - JWT_SECRET_KEY=your-secret-key-change-in-production-2024
+      - JWT_TIME_TO_LIVE=3600
+      - INTEGRATION_TOKEN=konex-integration-token-12345
+    networks:
+      - biit-network
+
+networks:
+  biit-network:
+    driver: bridge

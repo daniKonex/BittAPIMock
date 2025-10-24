@@ -1,0 +1,8 @@
+vendor/
+writable/
+.git/
+.env.example
+README.md
+.gitignore
+.DS_Store
+*.md

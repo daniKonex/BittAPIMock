@@ -1,0 +1,27 @@
+# CodeIgniter
+/vendor/
+/writable/*
+!writable/.gitkeep
+/phpunit*.xml
+/.phpunit.*.cache
+
+# Environment
+.env
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Composer
+composer.lock

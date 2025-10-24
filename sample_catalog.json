@@ -1,0 +1,190 @@
+{
+    "konex-import": {
+      "version": "1.0",
+      "metadata": {
+        "client": "Electronic Client",
+        "created-at": "2025-08-13T19:17:10.272402",
+        "description": "Sample XML products and collections",
+        "total-collections": 6,
+        "total-configurable-metadatas": 2,
+        "total-products": 2,
+        "total-configurable-products": 1
+      },
+      "collections": [
+        {
+          "id": "1000",
+          "internal-name": "Productos",
+          "external-name": "Productos",
+          "meta-title": "Productos - Electrónicos",
+          "meta-description": "Encuentra los mejores productos de productos en nuestra tienda de electrónicos."
+        },
+        {
+          "id": "1001",
+          "internal-name": "Smartphones y Tablets",
+          "external-name": "Smartphones y Tablets",
+          "parent-id": "1000"
+        },
+        {
+          "id": "2000",
+          "internal-name": "Marcas",
+          "external-name": "Marcas"
+        },
+        {
+          "id": "2001",
+          "internal-name": "Apple",
+          "external-name": "Apple",
+          "parent-id": "2000"
+        },
+        {
+          "id": "3000",
+          "internal-name": "Capacidad",
+          "external-name": "Capacidad"
+        },
+        {
+          "id": "3001",
+          "internal-name": "128Gb",
+          "external-name": "128Gb",
+          "parent-id": "3000"
+        }
+      ],
+      "configurable-metadatas": [
+        {
+          "id": "color",
+          "label": "Color",
+          "options": [
+            {
+              "id": "red",
+              "value": "Rojo"
+            },
+            {
+              "id": "green",
+              "value": "Verde"
+            },
+            {
+              "id": "blue",
+              "value": "Azul"
+            }
+          ]
+        },
+        {
+          "id": "capacidad",
+          "label": "Capacidad",
+          "options": [
+            {
+              "id": "64",
+              "value": "64Gb"
+            },
+            {
+              "id": "128",
+              "value": "128Gb"
+            },
+            {
+              "id": "256",
+              "value": "256Gb"
+            }
+          ]
+        }
+      ],
+      "products": [
+        {
+          "id": "10001",
+          "name": {
+            "es": "Apple iPad Pro 128Gb",
+            "en": "Apple iPad Pro 128Gb",
+            "fr": "Apple iPad Pro 128Go"
+          },
+          "description": {
+            "es": "Tablet Apple iPad Pro 129\" con pantalla AMOLED, cámara de alta resolución y conectividad 5G. Diseño elegante y rendimiento excepcional para todas tus necesidades diarias.",
+            "en": "Apple iPad Pro 129\" tablet with AMOLED display, high-resolution camera and 5G connectivity. Elegant design and exceptional performance for all your daily needs.",
+            "fr": "Tablette Apple iPad Pro 129\" avec écran AMOLED, caméra haute résolution et connectivité 5G. Design élégant et performances exceptionnelles pour tous vos besoins quotidiens."
+          },
+          "short-description": {
+            "es": "Tablet Apple iPad Pro 129\" con pantalla AMOLED, cámara de alta resolución y conectividad 5G. Diseño elegante y rendimiento excepcional pa...",
+            "en": "Apple iPad Pro 129\" tablet with AMOLED display, high-resolution camera and 5G connectivity. Elegant design and exceptional...",
+            "fr": "Tablette Apple iPad Pro 129\" avec écran AMOLED, caméra haute résolution et connectivité 5G. Design élégant et performances..."
+          },
+          "sku": "ELEC-0001",
+          "ean": "8493977141977",
+          "qty": 24,
+          "cost": 1773.45,
+          "price": 2650.45,
+          "discount-type": 1,
+          "discount": 10,
+          "tax-class": 1,
+          "vat": 21.00,
+          "collections": [
+            "1001",
+            "2001",
+            "3001"
+          ]
+        }
+      ],
+      "configurable-products": [
+        {
+          "id": "10001",
+          "name": "Apple iPad Pro",
+          "description": "Tablet Apple iPad Pro 129\" con pantalla AMOLED, cámara de alta resolución y conectividad 5G. Diseño elegante y rendimiento excepcional para todas tus necesidades diarias.",
+          "short-description": "Tablet Apple iPad Pro 129\" con pantalla AMOLED, cámara de alta resolución y conectividad 5G. Diseño elegante y rendimiento excepcional pa...",
+          "configurations-metadata": [
+            {
+              "id": "color"
+            },
+            {
+              "id": "capacidad"
+            }
+          ],
+          "options": [
+            {
+              "id": "10001-red-128",
+              "price": 2650.45,
+              "qty": 24,
+              "sku": "ELEC-0002",
+              "ean": "8493977141978",
+              "cost": 1773.45,
+              "discount-type": 1,
+              "discount": 10,
+              "tax-class": 1,
+              "vat": 21.00,
+              "collections": [
+                "1001",
+                "2001",
+                "3001"
+              ],
+              "configurations-metadata": [
+                {
+                  "id": "color",
+                  "value": "red"
+                },
+                {
+                  "id": "capacidad",
+                  "value": "128"
+                }
+              ]
+            },
+            {
+              "id": "10001-green-128",
+              "qty": 24,
+              "price": 2650.45,
+              "cost": 1773.45,
+              "sku": "ELEC-0003",
+              "ean": "8493977141979",
+              "discount-type": 1,
+              "discount": 10,
+              "tax-class": 1,
+              "vat": 21.00,
+              "configurations-metadata": [
+                {
+                  "id": "color",
+                  "value": "green"
+                },
+                {
+                  "id": "capacidad",
+                  "value": "128"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }

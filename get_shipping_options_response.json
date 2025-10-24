@@ -1,0 +1,19 @@
+{
+    "shipping_options": [
+        {
+            "id": "standard",
+            "name": "Standard Shipping",
+            "price": 0
+        },
+        {
+            "id": "express",
+            "name": "Express Shipping",
+            "price": 10
+        },
+        {
+            "id": "overnight",
+            "name": "Overnight Shipping",
+            "price": 20
+        }
+    ]
+}
