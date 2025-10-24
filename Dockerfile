@@ -47,19 +47,33 @@ RUN mkdir -p /var/www/html/writable && \
 # Change ownership
 RUN chown -R www-data:www-data /var/www/html
 
-# Set environment variables for Railway
+# Set default port (Railway will override this)
 ENV PORT=80
 
 # Expose port
-EXPOSE 80
+EXPOSE $PORT
 
-# Create script to start Apache with dynamic port
+# Create startup script for Railway
 RUN echo '#!/bin/bash\n\
+set -e\n\
+echo "=== Starting Apache on port $PORT ==="\n\
+echo "Configuring Apache for port $PORT"\n\
+\n\
+# Update Apache port configuration\n\
+echo "Listen $PORT" > /etc/apache2/ports.conf\n\
+\n\
+# Update virtual host configuration\n\
+sed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/" /etc/apache2/sites-available/000-default.conf\n\
+\n\
+# Show configuration for debugging\n\
+echo "Apache ports.conf:"\n\
+cat /etc/apache2/ports.conf\n\
+echo "Virtual host config:"\n\
+head -5 /etc/apache2/sites-available/000-default.conf\n\
+\n\
+# Start Apache\n\
 echo "Starting Apache..."\n\
-echo "Port: $PORT"\n\
-sed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf\n\
-sed -i "s/:80>/:$PORT>/" /etc/apache2/sites-available/000-default.conf\n\
-apache2-foreground' > /usr/local/bin/start-apache.sh && \
+exec apache2-foreground' > /usr/local/bin/start-apache.sh && \
 chmod +x /usr/local/bin/start-apache.sh
 
 # Start Apache using our script
