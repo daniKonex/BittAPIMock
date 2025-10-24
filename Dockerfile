@@ -111,6 +111,12 @@ php /var/www/html/public/health.php\n\
 echo "ErrorLog /dev/stderr" >> /etc/apache2/apache2.conf\n\
 echo "LogLevel debug" >> /etc/apache2/apache2.conf\n\
 \n\
+# Enable PHP error logging\n\
+echo "log_errors = On" >> /usr/local/etc/php/php.ini\n\
+echo "error_log = /dev/stderr" >> /usr/local/etc/php/php.ini\n\
+echo "display_errors = On" >> /usr/local/etc/php/php.ini\n\
+echo "error_reporting = E_ALL" >> /usr/local/etc/php/php.ini\n\
+\n\
 # Test PHP files before starting Apache\n\
 echo "=== TESTING PHP FILES ==="\n\
 echo "Testing health.php:"\n\
