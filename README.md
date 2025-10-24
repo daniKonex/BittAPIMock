@@ -2,6 +2,8 @@
 
 Mock API for testing the integration between KonexCommerce and Biit/Sage ERP system. Built with CodeIgniter 4 and PHP 8.2.
 
+🌐 **Live Production**: Deployed on Railway with automatic CI/CD
+
 ## 🚀 Quick Start
 
 ### Prerequisites
