@@ -96,8 +96,36 @@ php -v\n\
 echo "Testing health.php directly:"\n\
 php /var/www/html/public/health.php\n\
 \n\
-# Start Apache\n\
-echo "Starting Apache..."\n\
+# Enable Apache error logging\n\
+echo "ErrorLog /dev/stderr" >> /etc/apache2/apache2.conf\n\
+echo "LogLevel debug" >> /etc/apache2/apache2.conf\n\
+\n\
+# Test PHP files before starting Apache\n\
+echo "=== TESTING PHP FILES ==="\n\
+echo "Testing health.php:"\n\
+php -l /var/www/html/public/health.php\n\
+echo "Testing debug.php:"\n\
+php -l /var/www/html/public/debug.php\n\
+echo "Testing index.php:"\n\
+php -l /var/www/html/public/index.php\n\
+\n\
+# Test file permissions\n\
+echo "=== FILE PERMISSIONS ==="\n\
+ls -la /var/www/html/\n\
+ls -la /var/www/html/public/\n\
+ls -la /var/www/html/app/\n\
+ls -la /var/www/html/vendor/ | head -10\n\
+\n\
+# Test composer autoload\n\
+echo "=== TESTING COMPOSER ==="\n\
+php -r "require_once \"/var/www/html/vendor/autoload.php\"; echo \"Autoload OK\\n\";"\n\
+\n\
+# Test basic PHP execution\n\
+echo "=== TESTING BASIC PHP ==="\n\
+php -r "echo \"PHP execution OK\\n\";"\n\
+\n\
+# Start Apache with verbose logging\n\
+echo "Starting Apache with debug logging..."\n\
 exec apache2-foreground' > /usr/local/bin/start-apache.sh && \
 chmod +x /usr/local/bin/start-apache.sh
 
