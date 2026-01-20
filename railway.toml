@@ -10,6 +10,8 @@ numReplicas = 1
 
 [variables]
 CI_ENVIRONMENT = "production"
+JWT_SECRET_KEY = "your-super-secret-jwt-key-for-production-change-this-in-real-deployment"
+INTEGRATION_TOKEN = "konex-integration-token-12345"
 
 [nixpacks]
 providers = ["php"]

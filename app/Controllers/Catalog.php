@@ -13,7 +13,7 @@ class Catalog extends BaseController
         // Check for full sync header
         $fullSync = $this->request->getHeaderLine('X-Full-Sync') === 'true';
 
-        $sourcePath = ROOTPATH . 'rogen.json';
+        $sourcePath = FCPATH . '../rogen.json';
         if (!is_file($sourcePath)) {
             return $this->jsonResponse([
                 'success' => false,

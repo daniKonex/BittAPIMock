@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Data\CommercialClientsMapping;
+
 class User extends BaseController
 {
     /**
@@ -96,11 +98,47 @@ class User extends BaseController
     /**
      * GET /me/addresses
      * Returns shipping and billing addresses for the client
+     * 
+     * For commercial users: 
+     * - Accepts X-Acting-As-Client header with the email of the selected client
+     * - Returns addresses from the selected client's allowedClients data
      */
     public function addresses()
     {
         $user = $this->request->user;
+        $actingAsClient = $this->request->getHeaderLine('X-Acting-As-Client');
         
+        // Check if user is commercial (email contains "comercial")
+        $isCommercial = stripos($user->email, 'comercial') !== false;
+        
+        if ($isCommercial && !empty($actingAsClient)) {
+            // Get all clients for this commercial user
+            $allowedClients = CommercialClientsMapping::getClientsForEmail($user->email);
+            
+            // Find the selected client by email
+            $selectedClient = null;
+            foreach ($allowedClients as $client) {
+                if ($client['email'] === $actingAsClient) {
+                    $selectedClient = $client;
+                    break;
+                }
+            }
+            
+            // If client found, return their addresses
+            if ($selectedClient && isset($selectedClient['addresses'])) {
+                return $this->jsonResponse([
+                    'success' => true,
+                    'data' => [
+                        'clientId' => $selectedClient['clientId'],
+                        'clientEmail' => $selectedClient['email'],
+                        'clientName' => $selectedClient['name'],
+                        'addresses' => $selectedClient['addresses']
+                    ]
+                ]);
+            }
+        }
+        
+        // Default response for non-commercial users or when no client is selected
         return $this->jsonResponse([
             'success' => true,
             'data' => [
