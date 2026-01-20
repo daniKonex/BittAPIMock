@@ -21,6 +21,10 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl
 
+# Disable conflicting MPMs and enable only mpm_prefork
+RUN a2dismod mpm_event mpm_worker || true
+RUN a2enmod mpm_prefork
+
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
