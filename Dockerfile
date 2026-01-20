@@ -21,9 +21,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl
 
-# Disable conflicting MPMs and enable only mpm_prefork
-RUN a2dismod mpm_event mpm_worker || true
-RUN a2enmod mpm_prefork
+# Disable all MPMs first, then enable only mpm_prefork
+RUN a2dismod mpm_event mpm_worker mpm_prefork || true && \
+    a2enmod mpm_prefork
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -144,6 +144,13 @@ php -r "require_once \"/var/www/html/vendor/autoload.php\"; echo \"Autoload OK\\
 # Test basic PHP execution\n\
 echo "=== TESTING BASIC PHP ==="\n\
 php -r "echo \"PHP execution OK\\n\";"\n\
+\n\
+# Ensure only mpm_prefork is enabled\n\
+echo "=== CONFIGURING APACHE MPM ==="\n\
+a2dismod mpm_event mpm_worker 2>/dev/null || true\n\
+a2enmod mpm_prefork 2>/dev/null || true\n\
+echo "Checking enabled MPM modules:"\n\
+apache2ctl -M 2>&1 | grep mpm || echo "No MPM modules found in output"\n\
 \n\
 # Start Apache with verbose logging\n\
 echo "Starting Apache with debug logging..."\n\
