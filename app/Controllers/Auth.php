@@ -41,12 +41,39 @@ class Auth extends BaseController
             // Use first client's ID as default clientId
             $clientId = $allowedClients[0]['clientId'];
         } else {
-            // Regular users get single client
+            // Regular users get single client with addresses
             $allowedClients = [
                 [
                     'clientId' => $clientId,
+                    'email' => $email,
                     'name' => 'Main Client',
-                    'canCreateOrders' => true
+                    'canCreateOrders' => true,
+                    'addresses' => [
+                        [
+                            'id' => 'ADDR-' . $clientId . '-01',
+                            'type' => 'shipping',
+                            'name' => 'Main Client',
+                            'street' => 'Calle Mayor 123',
+                            'city' => 'Madrid',
+                            'postalCode' => '28001',
+                            'province' => 'Madrid',
+                            'country' => 'ES',
+                            'phone' => '+34 600 000 000',
+                            'isDefault' => true
+                        ],
+                        [
+                            'id' => 'ADDR-' . $clientId . '-02',
+                            'type' => 'shipping',
+                            'name' => 'Main Client - Oficina',
+                            'street' => 'Avenida Principal 456',
+                            'city' => 'Madrid',
+                            'postalCode' => '28002',
+                            'province' => 'Madrid',
+                            'country' => 'ES',
+                            'phone' => '+34 600 000 001',
+                            'isDefault' => false
+                        ]
+                    ]
                 ]
             ];
         }
